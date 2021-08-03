@@ -35,13 +35,13 @@ save what you just did, so be careful!
   - [x] Allow user to edit reipes
   - [x] Produce success/error messages when the user interacts.
 - [ ] View view
-  - [ ] Exist
+  - [x] Exist
   - [ ] Load data based on what was clicked
   - [ ] Checkbox for ingredients
   - [ ] Checkbox for prep instructions
   - [ ] Allow user to return to Browse
 - [ ] Search view
-  - [ ] Exist
+  - [x] Exist
   - [ ] Load data based on search
   - [ ] Delete and save after confirmation
   - [ ] Allow you to go into edit/view mode on a recipe
