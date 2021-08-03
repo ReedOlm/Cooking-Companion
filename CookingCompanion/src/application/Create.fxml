@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreateController">
+   <children>
+      <Button fx:id="save" layoutX="961.0" layoutY="8.0" mnemonicParsing="false" onAction="#handle" prefHeight="50.0" prefWidth="105.0" text="Save">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitWithoutSaving" layoutX="15.0" layoutY="8.0" mnemonicParsing="false" onAction="#handle" prefHeight="50.0" prefWidth="169.0" text="Exit Without Saving">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Line endX="984.0" layoutX="101.0" layoutY="64.0" startX="-112.5" />
+      <TextField fx:id="recipeName" alignment="CENTER" layoutX="337.0" layoutY="8.0" prefHeight="50.0" prefWidth="400.0" promptText="Recipe Name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="538.0" layoutX="632.0" layoutY="71.0" stroke="BLACK" strokeType="INSIDE" width="434.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="180.0" layoutX="14.0" layoutY="617.0" stroke="BLACK" strokeType="INSIDE" width="614.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="180.0" layoutX="632.0" layoutY="617.0" stroke="BLACK" strokeType="INSIDE" width="434.0" />
+      <TextField fx:id="totalServings" layoutX="14.0" layoutY="71.0" prefHeight="32.0" prefWidth="123.0" promptText="Number of Servings" />
+      <Text layoutX="396.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Calories:" wrappingWidth="201.13671875">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text fx:id="caloriesTotal" layoutX="540.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="87.34375">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="182.0" layoutY="642.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add or Remove Ingredients">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="743.0" layoutY="642.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add or Remove Tags">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="790.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Button fx:id="removeIngredient" layoutX="24.0" layoutY="748.0" mnemonicParsing="false" onAction="#handle" prefHeight="44.0" prefWidth="290.0" text="Remove">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="addIngredient" layoutX="326.0" layoutY="748.0" mnemonicParsing="false" onAction="#handle" prefHeight="44.0" prefWidth="290.0" text="Add">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="removeTag" layoutX="644.0" layoutY="748.0" mnemonicParsing="false" onAction="#handle" prefHeight="44.0" prefWidth="105.0" text="Remove">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="addTag" layoutX="755.0" layoutY="748.0" mnemonicParsing="false" onAction="#handle" prefHeight="31.0" prefWidth="105.0" text="Add">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <TextField fx:id="enterName" layoutX="24.0" layoutY="675.0" prefHeight="45.0" prefWidth="268.0" promptText="Ingredient Name">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="enterAmount" layoutX="303.0" layoutY="675.0" prefHeight="45.0" prefWidth="95.0" promptText="Amount">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="enterCalories" layoutX="534.0" layoutY="675.0" prefHeight="46.0" prefWidth="87.0" promptText="Cals.">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </TextField>
+      <ChoiceBox fx:id="unitSelection" layoutX="405.0" layoutY="679.0" prefHeight="32.0" prefWidth="123.0" />
+      <TextField fx:id="enterTag" layoutX="644.0" layoutY="676.0" prefHeight="45.0" prefWidth="218.0" promptText="New Tag">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+      <ListView fx:id="tagList" layoutX="873.0" layoutY="651.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="141.0" prefWidth="188.0" />
+      <ListView fx:id="instructions" layoutX="635.0" layoutY="111.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="415.0" prefWidth="428.0" />
+      <Text layoutX="707.0" layoutY="551.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add or Remove Instructions">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <TextField fx:id="enterInstruction" layoutX="640.0" layoutY="560.0" prefHeight="45.0" prefWidth="218.0" promptText="New Tag">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+      <Button fx:id="addInstruction" layoutX="964.0" layoutY="561.0" mnemonicParsing="false" onAction="#handle" prefHeight="44.0" prefWidth="95.0" text="Add">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="removeInstruction" layoutX="862.0" layoutY="561.0" mnemonicParsing="false" onAction="#handle" prefHeight="44.0" prefWidth="95.0" text="Remove">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <TableView fx:id="ingredientList" layoutX="12.0" layoutY="109.0" prefHeight="500.0" prefWidth="615.0">
+        <columns>
+          <TableColumn fx:id="colName" prefWidth="297.0" style="-fx-alignment: CENTER;" text="Ingredient Name" />
+          <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Amount" />
+            <TableColumn fx:id="colUnit" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Unit" />
+            <TableColumn fx:id="colCalories" prefWidth="137.0" style="-fx-alignment: CENTER;" text="Calories" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
