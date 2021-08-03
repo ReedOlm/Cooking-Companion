@@ -46,3 +46,5 @@ save what you just did, so be careful!
   - [ ] Delete and save after confirmation
   - [ ] Allow you to go into edit/view mode on a recipe
   - [ ] Allow user to return to browse
+- [ ] Beautify UI
+- [ ] Comment Code Better
