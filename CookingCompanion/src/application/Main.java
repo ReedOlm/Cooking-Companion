@@ -31,8 +31,12 @@ public class Main extends Application
 			//Create Data files if it doesn't exist
 			try
 			{
+				//Create directory if it doesn't exist
+				new File("src/application/data").mkdirs();
+				//Create files if it doesn't exist
 				File fileA = new File("src/application/data/recipes.csv");
 				File fileB = new File("src/application/data/pass.csv");
+				//Could add new user message maybe? These only happen if new files are made.
 				if(fileA.createNewFile())
 				{}
 				else
