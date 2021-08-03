@@ -28,12 +28,12 @@ save what you just did, so be careful!
 # TODO
 - [x] Home view
 - [x] Browse view
-- [ ] Create view
+- [x] Create view
   - [x] Allow user to create recipes
-  - [ ] Produce success/error messages when the user interacts.
-- [ ] Edit view
+  - [x] Produce success/error messages when the user interacts.
+- [x] Edit view
   - [x] Allow user to edit reipes
-  - [ ] Produce success/error messages when the user interacts.
+  - [x] Produce success/error messages when the user interacts.
 - [ ] View view
   - [ ] Exist
   - [ ] Load data based on what was clicked
