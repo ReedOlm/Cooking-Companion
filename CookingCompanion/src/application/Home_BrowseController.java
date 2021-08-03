@@ -26,8 +26,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The CardController class connects UI with back end and implements
- * EventHandler to get action events from JavaFX, and Initializable
+ * The Home_BrowseController class, represents the Home View after data is loaded, and connects UI with back end and implements
+ * EventHandler to get action events from JavaFX and Initializable
  * to switch scenes and update certain models.
  * 
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021

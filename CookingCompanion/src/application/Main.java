@@ -9,6 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * The Main class creates the UI, as well as the storage data files
+ * the program will use, then will switch scenes.
+ * 
+ * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
+ */
 public class Main extends Application
 {
 	@Override

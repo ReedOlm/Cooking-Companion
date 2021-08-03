@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The CardController class connects UI with back end and implements
+ * The HomeController class, represents the Home View, and connects UI with back end and implements
  * EventHandler to get action events from JavaFX and Initializable
  * to switch scenes and update certain models.
  * 
