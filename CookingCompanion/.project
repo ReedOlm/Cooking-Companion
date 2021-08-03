@@ -20,4 +20,11 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>README.md</name>
+			<type>1</type>
+			<location>C:/Users/reedo/git/repository/CookingCompanion/README.md</location>
+		</link>
+	</linkedResources>
 </projectDescription>
