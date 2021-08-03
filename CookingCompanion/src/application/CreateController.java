@@ -28,9 +28,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The CreateController class, represents the Create new recipe view, and connects UI with back end and implements
- * EventHandler to get action events from JavaFX and Initializable
- * to switch scenes and update certain models.
+ * The CreateController class, represents the Create new recipe view, and
+ * connects UI with back end and implements EventHandler to get action events
+ * from JavaFX and Initializable to switch scenes and update certain models.
  * 
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
  */
@@ -55,7 +55,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 	public TableColumn<Ingredient, String> colName, colAmount, colUnit, colCalories;
 
 	@FXML
-	public Text caloriesTotal;
+	public Text caloriesTotal, ingError;
 
 	@FXML
 	public TextField enterCalories, enterAmount, enterName, enterTag, recipeName, totalServings, enterInstruction;
@@ -138,6 +138,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 		else if (event.getSource() == addIngredient)
 		{
 			ObservableList<Ingredient> list = ingredientList.getItems();
+			try {
 			if (enterName.getText() != "" && enterAmount.getText() != "" && unitSelection.getValue() != null && enterCalories.getText() != "")
 			{
 				Ingredient ing = new Ingredient(enterName.getText(), Double.valueOf(enterAmount.getText()), unitSelection.getValue(), Integer.valueOf(enterCalories.getText()));
@@ -148,6 +149,9 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				unitSelection.getSelectionModel().clearSelection();
 				unitSelection.setValue(null);
 				enterCalories.clear();
+			}else
+			{
+				ingError.setText("Error: Fill out all 4 ingredient fields.");
 			}
 			int sum = 0;
 			for (int i = 0; i < list.size(); i++)
@@ -155,6 +159,10 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				sum += list.get(i).getCalories();
 			}
 			caloriesTotal.setText(String.valueOf(sum));
+			} catch(NumberFormatException e)
+			{
+				ingError.setText("Error: Only enter numbers into amount and calorie boxes.");
+			}
 		}
 		
 		// Remove Ingredient
@@ -181,6 +189,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 	@FXML
 	private void putSelectedListItemInBox(MouseEvent event)
 	{
+		ingError.setText("");
 		// Instruction selection
 		if (event.getSource() == instructions)
 		{
@@ -196,7 +205,6 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 		{
 			if (ingredientList.getSelectionModel().getSelectedItem() != null)
 			{
-				System.out.println(ingredientList.getSelectionModel().getSelectedItem().getName());
 				enterName.setText(ingredientList.getSelectionModel().getSelectedItem().getName());
 				enterAmount.setText(String.valueOf(ingredientList.getSelectionModel().getSelectedItem().getAmount()));
 				unitSelection.setValue(ingredientList.getSelectionModel().getSelectedItem().getUnit());
@@ -208,6 +216,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
+		ingError.setText("");
 		unitSelection.getItems().setAll(EUnitType.values());
 
 		instructions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

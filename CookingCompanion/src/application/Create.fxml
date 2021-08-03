@@ -79,22 +79,22 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TextField fx:id="enterName" layoutX="24.0" layoutY="675.0" prefHeight="45.0" prefWidth="268.0" promptText="Ingredient Name">
+      <TextField fx:id="enterName" layoutX="24.0" layoutY="675.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="45.0" prefWidth="268.0" promptText="Ingredient Name">
          <font>
             <Font size="21.0" />
          </font>
       </TextField>
-      <TextField fx:id="enterAmount" layoutX="303.0" layoutY="675.0" prefHeight="45.0" prefWidth="95.0" promptText="Amount">
+      <TextField fx:id="enterAmount" layoutX="303.0" layoutY="675.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="45.0" prefWidth="95.0" promptText="Amount">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <TextField fx:id="enterCalories" layoutX="534.0" layoutY="675.0" prefHeight="46.0" prefWidth="87.0" promptText="Cals.">
+      <TextField fx:id="enterCalories" layoutX="534.0" layoutY="675.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="46.0" prefWidth="87.0" promptText="Cals.">
          <font>
             <Font size="19.0" />
          </font>
       </TextField>
-      <ChoiceBox fx:id="unitSelection" layoutX="405.0" layoutY="679.0" prefHeight="32.0" prefWidth="123.0" />
+      <ChoiceBox fx:id="unitSelection" layoutX="405.0" layoutY="679.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="32.0" prefWidth="123.0" />
       <TextField fx:id="enterTag" layoutX="644.0" layoutY="676.0" prefHeight="45.0" prefWidth="218.0" promptText="New Tag">
          <font>
             <Font size="21.0" />
@@ -122,7 +122,7 @@
             <Font size="19.0" />
          </font>
       </Button>
-      <TableView fx:id="ingredientList" layoutX="12.0" layoutY="109.0" prefHeight="500.0" prefWidth="615.0">
+      <TableView fx:id="ingredientList" layoutX="12.0" layoutY="109.0" onMouseClicked="#putSelectedListItemInBox" prefHeight="500.0" prefWidth="615.0">
         <columns>
           <TableColumn fx:id="colName" prefWidth="297.0" style="-fx-alignment: CENTER;" text="Ingredient Name" />
           <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Amount" />
@@ -130,5 +130,10 @@
             <TableColumn fx:id="colCalories" prefWidth="137.0" style="-fx-alignment: CENTER;" text="Calories" />
         </columns>
       </TableView>
+      <Text fx:id="ingError" layoutX="23.0" layoutY="664.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="595.13671875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
