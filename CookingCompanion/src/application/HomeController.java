@@ -19,22 +19,22 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The HomeController class, represents the Home View, and connects UI with back end and implements
- * EventHandler to get action events from JavaFX and Initializable
- * to switch scenes and update certain models.
+ * The HomeController class, represents the Home View, and connects UI with back
+ * end and implements EventHandler to get action events from JavaFX and
+ * Initializable to switch scenes and update certain models.
  * 
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
  */
 public class HomeController implements EventHandler<ActionEvent>, Initializable
 {
-	
+
 	// Sets ids for JavaFX
 	@FXML
 	Button createRecipeButton, searchButton, browseRecipesButton;
 
 	@FXML
 	TextField nameSearch, ingredientSearch, tagSearch, caloriesSearch;
-	
+
 	@FXML
 	Text errorText;
 
@@ -55,21 +55,29 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 			String name = nameSearch.getText();
 			String ingredient = ingredientSearch.getText();
 			String tag = tagSearch.getText();
-			int calorie;
+			int calorie = -2;
 			try
 			{
-				calorie = Integer.parseInt(caloriesSearch.getText());
-			}catch(NumberFormatException e)
+				if (caloriesSearch.getText() != "")
+				{
+					calorie = Integer.parseInt(caloriesSearch.getText());
+				}
+			} catch (NumberFormatException e)
 			{
-				calorie = 0;
+				errorText.setText("Error: Please enter a number when searching for calories.");
+				calorie = -1;
 			}
-			
-			if(name == "" && ingredient == "" && tag == "" && calorie <= 0)
+
+			if (name == "" && ingredient == "" && tag == "" && calorie == -2)
 			{
-				errorText.setText("Error: please enter at least one search option, then try your search again.");
-			}else
+				errorText.setText("Error: Please enter at least one search option, then try your search again.");
+			} else if (calorie == -1)
 			{
-				//Write your data to the pass csv
+				// Do nothing
+			} else
+
+			{
+				// Write your data to the pass csv
 				try
 				{
 					FileWriter writer = new FileWriter("src/application/data/pass.csv", false);
@@ -83,13 +91,13 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 					writer.append("\n");
 					writer.flush();
 					writer.close();
-					
+
 				} catch (IOException e1)
 				{
 					e1.printStackTrace();
 				}
-				
-				//goes to the Search Screen 
+
+				// goes to the Search Screen
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -111,7 +119,7 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 		// create is clicked
 		else if (event.getSource() == createRecipeButton)
 		{
-			//Opens the Blank recipe editor 
+			// Opens the Blank recipe editor
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -132,7 +140,7 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 		// browse is clicked
 		else if (event.getSource() == browseRecipesButton)
 		{
-			//Opens the Home screen with browser filled
+			// Opens the Home screen with browser filled
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -150,7 +158,7 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 			}
 		}
 	}
-	
+
 	@FXML
 	private void clearTextFields(MouseEvent event)
 	{
@@ -164,6 +172,6 @@ public class HomeController implements EventHandler<ActionEvent>, Initializable
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

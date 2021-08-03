@@ -26,18 +26,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The Home_BrowseController class, represents the Home View after data is loaded, and connects UI with back end and implements
- * EventHandler to get action events from JavaFX and Initializable
- * to switch scenes and update certain models.
+ * The Home_BrowseController class, represents the Home View after data is
+ * loaded, and connects UI with back end and implements EventHandler to get
+ * action events from JavaFX and Initializable to switch scenes and update
+ * certain models.
  * 
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
  */
 public class Home_BrowseController implements EventHandler<ActionEvent>, Initializable
 {
-	//Load recipes from file, place them into this ArrayList
+	// Load recipes from file, place them into this ArrayList
 	ObservableList<String> list = FXCollections.observableArrayList();
 	ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-	
+
 	// Sets ids for JavaFX
 	@FXML
 	ListView<String> allRecipeList;
@@ -47,7 +48,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 
 	@FXML
 	TextField nameSearch, ingredientSearch, tagSearch, caloriesSearch;
-	
+
 	@FXML
 	Text errorText;
 
@@ -68,29 +69,71 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 			String name = nameSearch.getText();
 			String ingredient = ingredientSearch.getText();
 			String tag = tagSearch.getText();
-			int calorie;
+			int calorie = -2;
 			try
 			{
-				calorie = Integer.parseInt(caloriesSearch.getText());
-			}catch(NumberFormatException e)
+				if (caloriesSearch.getText() != "")
+				{
+					calorie = Integer.parseInt(caloriesSearch.getText());
+				}
+			} catch (NumberFormatException e)
 			{
-				calorie = 0;
+				errorText.setText("Error: Please enter a number when searching for calories.");
+				calorie = -1;
 			}
-			
-			if(name == "" && ingredient == "" && tag == "" && calorie <= 0)
+
+			if (name == "" && ingredient == "" && tag == "" && calorie == -2)
 			{
-				errorText.setText("Error: please enter at least one search option, then try your search again.");
-			}else
+				errorText.setText("Error: Please enter at least one search option, then try your search again.");
+			} else if (calorie == -1)
 			{
-				errorText.setText("");
-				//TODO Go to search screen!
+				// Do nothing
+			} else
+
+			{
+				// Write your data to the pass csv
+				try
+				{
+					FileWriter writer = new FileWriter("src/application/data/pass.csv", false);
+					writer.append(nameSearch.getText());
+					writer.append(",");
+					writer.append(ingredientSearch.getText());
+					writer.append(",");
+					writer.append(tagSearch.getText());
+					writer.append(",");
+					writer.append(caloriesSearch.getText());
+					writer.append("\n");
+					writer.flush();
+					writer.close();
+
+				} catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+
+				// goes to the Search Screen
+				Stage appStage;
+				Parent root;
+				appStage = (Stage) createRecipeButton.getScene().getWindow();
+				try
+				{
+					root = FXMLLoader.load(getClass().getResource("Search.fxml"));
+					Scene scene = new Scene(root);
+					appStage.setScene(scene);
+					appStage.setTitle("Cooking Companion - Search");
+					appStage.show();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 
 		// create is clicked
 		else if (event.getSource() == createRecipeButton)
 		{
-			//Opens the Blank recipe editor 
+			// Opens the Blank recipe editor
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -110,56 +153,69 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		// edit is clicked
 		else if (event.getSource() == editRecipeButton)
 		{
-			//Write your data to the pass csv
-			writePass(allRecipeList.getSelectionModel().getSelectedItem());
-			if(allRecipeList.getSelectionModel().getSelectedItem() == "null")
+			if (allRecipeList.getSelectionModel().getSelectedItem() != null)
 			{
-				System.out.println("Swag");
+				// Write your data to the pass csv
+				writePass(allRecipeList.getSelectionModel().getSelectedItem());
+				if (allRecipeList.getSelectionModel().getSelectedItem() == "null")
+				{
+					System.out.println("Swag");
+				}
+
+				// goes to the Search Screen
+				Stage appStage;
+				Parent root;
+				appStage = (Stage) createRecipeButton.getScene().getWindow();
+				try
+				{
+					root = FXMLLoader.load(getClass().getResource("Editor.fxml"));
+					Scene scene = new Scene(root);
+					appStage.setScene(scene);
+					appStage.setTitle("Cooking Companion - Editor");
+					appStage.show();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else
+			{
+				errorText.setText("Error: Please choose a recipe.");
 			}
-			
-			//goes to the Search Screen 
-			Stage appStage;
-			Parent root;
-			appStage = (Stage) createRecipeButton.getScene().getWindow();
-			try
-			{
-				root = FXMLLoader.load(getClass().getResource("Editor.fxml"));
-				Scene scene = new Scene(root);
-				appStage.setScene(scene);
-				appStage.setTitle("Cooking Companion - Editor");
-				appStage.show();
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 		}
-		
+
 		// view is clicked
 		else if (event.getSource() == viewRecipeButton)
 		{
-			//Write your data to the pass csv
-			writePass(allRecipeList.getSelectionModel().getSelectedItem());
-			
-			//goes to the View Screen 
-			Stage appStage;
-			Parent root;
-			appStage = (Stage) createRecipeButton.getScene().getWindow();
-			try
+			if (allRecipeList.getSelectionModel().getSelectedItem() != null)
 			{
-				root = FXMLLoader.load(getClass().getResource("View.fxml"));
-				Scene scene = new Scene(root);
-				appStage.setScene(scene);
-				appStage.setTitle("Cooking Companion - View Recipe");
-				appStage.show();
-			} catch (IOException e)
+				// Write your data to the pass csv
+				writePass(allRecipeList.getSelectionModel().getSelectedItem());
+
+				// goes to the View Screen
+				Stage appStage;
+				Parent root;
+				appStage = (Stage) createRecipeButton.getScene().getWindow();
+				try
+				{
+					root = FXMLLoader.load(getClass().getResource("View.fxml"));
+					Scene scene = new Scene(root);
+					appStage.setScene(scene);
+					appStage.setTitle("Cooking Companion - View Recipe");
+					appStage.show();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorText.setText("Error: Please choose a recipe.");
 			}
 		}
 	}
-	
+
 	@FXML
 	private void clearTextFields(MouseEvent event)
 	{
@@ -172,7 +228,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
-		//Update listview
+		// Update listview
 		try
 		{
 			readData();
@@ -184,18 +240,18 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		loadData();
 		allRecipeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
-	
+
 	void initData(String test)
 	{
 		tagSearch.setText(test);
 	}
-	
-	//This reads the saved recipe information into a recipe arrayList
+
+	// This reads the saved recipe information into a recipe arrayList
 	private void readData() throws IOException
 	{
 		String row;
 		BufferedReader csvReader = new BufferedReader(new FileReader("src/application/data/recipes.csv"));
-		while((row = csvReader.readLine()) != null)
+		while ((row = csvReader.readLine()) != null)
 		{
 			String[] data = row.split(",");
 			int i = 0;
@@ -203,57 +259,57 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 			ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 			ArrayList<String> tags = new ArrayList<String>();
 			ArrayList<String> prep = new ArrayList<String>();
-			
+
 			String name = data[0];
 			int calories = Integer.parseInt(data[1]);
 			int servings = Integer.parseInt(data[2]);
 			int numTags = Integer.parseInt(data[3]);
-			
-			for(i = 0; i < numTags; i++)
+
+			for (i = 0; i < numTags; i++)
 			{
-				tags.add(data[4+i]);
+				tags.add(data[4 + i]);
 			}
-			
-			int numSteps = Integer.parseInt(data[4+i]);
-			for(j = 0; j <= numSteps; j++)
+
+			int numSteps = Integer.parseInt(data[4 + i]);
+			for (j = 0; j <= numSteps; j++)
 			{
-				prep.add(data[4+i]);
+				prep.add(data[4 + i]);
 				i++;
 			}
-			
-			int numIngredients = Integer.parseInt(data[4+i]);
-			for(j = 0; j < numIngredients; j++)
+
+			int numIngredients = Integer.parseInt(data[4 + i]);
+			for (j = 0; j < numIngredients; j++)
 			{
-				String iName = data[5+i];
-				double iAmount = Double.parseDouble(data[6+i]);
-				EUnitType iUnit = EUnitType.fromString(data[7+i]);
-				int iCalories = Integer.parseInt(data[8+i]);
+				String iName = data[5 + i];
+				double iAmount = Double.parseDouble(data[6 + i]);
+				EUnitType iUnit = EUnitType.fromString(data[7 + i]);
+				int iCalories = Integer.parseInt(data[8 + i]);
 				i = i + 4;
-				
+
 				Ingredient ingredient = new Ingredient(iName, iAmount, iUnit, iCalories);
 				ingredients.add(ingredient);
 			}
-			
+
 			Recipe recipe = new Recipe(name, servings, calories, ingredients, tags, prep);
 			recipes.add(recipe);
 		}
 		csvReader.close();
 	}
-	
-	//This puts the recipe arraylist into the listview
+
+	// This puts the recipe arraylist into the listview
 	private void loadData()
 	{
 		list.removeAll(list);
-		
-		for(int i = 0; i < recipes.size(); i++)
+
+		for (int i = 0; i < recipes.size(); i++)
 		{
 			list.add(recipes.get(i).toString());
 		}
-		
+
 		allRecipeList.getItems().addAll(list);
 	}
-	
-	//This writes data to pass.csv
+
+	// This writes data to pass.csv
 	private void writePass(String selectedItem)
 	{
 		try
@@ -263,7 +319,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 			writer.append("\n");
 			writer.flush();
 			writer.close();
-			
+
 		} catch (IOException e1)
 		{
 			e1.printStackTrace();
