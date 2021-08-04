@@ -94,6 +94,7 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 				try
 				{
 					// Catches non int values in field
+					@SuppressWarnings("unused")
 					int servingTest = Integer.valueOf(totalServings.getText());
 					// Save stuff
 					saveData(recipeName.getText());
@@ -266,7 +267,7 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 		colUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
 		colCalories.setCellValueFactory(cellData -> cellData.getValue().caloriesProperty());
 
-		caloriesTotal.setText("0");// TODO add updater to add/remove ingredients
+		caloriesTotal.setText("0");
 		try
 		{
 			readData();
@@ -430,7 +431,6 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 					writer.append(",");
 				}
 				// write numSteps and Steps
-				// TODO Convert text area to individual Strings
 				ObservableList<String> listOfInstructions = instructions.getItems();
 				writer.append(String.valueOf(listOfInstructions.size()));
 				writer.append(",");
@@ -493,7 +493,6 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 							writer.append(",");
 						}
 						// write numSteps and Steps
-						// TODO Convert text area to individual Strings
 						ObservableList<String> listOfInstructions = instructions.getItems();
 						writer.append(String.valueOf(listOfInstructions.size()));
 						writer.append(",");
@@ -540,7 +539,6 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 							writer.append(",");
 						}
 						// write numSteps and Steps
-						// TODO Convert text area to individual Strings
 						writer.append(String.valueOf(cur.getPrep().size()));
 						writer.append(",");
 						for (int i = 0; i < cur.getPrep().size(); i++)
@@ -571,7 +569,6 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 				writer.close();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -2,43 +2,50 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
- * CardModel is a Java class representing a RecipeObject with a name, number 
- * of servings number of total calories, list of ingredients, and list of 
- * tags. Contains methods for getting and setting, as well as
+ * CardModel is a Java class representing a RecipeObject with a name, number of
+ * servings number of total calories, list of ingredients, and list of tags.
+ * Contains methods for getting and setting, as well as
  *
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
  */
 public class Recipe
 {
-	//TODO Data fields
+	// TODO Data fields
 	private String name;
 	private int servings;
 	private int calories;
 	private ArrayList<Ingredient> ingredients;
 	private ArrayList<String> tags;
 	private ArrayList<String> prep;
+	private final StringProperty nameP = new SimpleStringProperty();
+	private final StringProperty calsP = new SimpleStringProperty();
 
 	/**
-	 * constructor: 5-arg constructor containing name, servings, total
-	 * calories, list of ingredients, and list of tags
+	 * constructor: 5-arg constructor containing name, servings, total calories,
+	 * list of ingredients, and list of tags
 	 * 
-	 * @param name Name of Recipe (String)
-	 * @param servings Number of servings (int)
-	 * @param calories Number of calories (int)
+	 * @param name        Name of Recipe (String)
+	 * @param servings    Number of servings (int)
+	 * @param calories    Number of calories (int)
 	 * @param ingredients List of all ingredients (ArrayList<Ingredient>)
-	 * @param tags List of all tags (ArrayList<Sring>)
-	 * @param prep Instructions on preparation of dish (String)
+	 * @param tags        List of all tags (ArrayList<Sring>)
+	 * @param prep        Instructions on preparation of dish (String)
 	 */
 	public Recipe(String name, int servings, int calories, ArrayList<Ingredient> ingredients, ArrayList<String> tags, ArrayList<String> prep)
 	{
-		//TODO Arg Constructor
+		// TODO Arg Constructor
 		this.name = name;
 		this.servings = servings;
 		this.calories = calories;
 		this.ingredients = ingredients;
 		this.tags = tags;
 		this.prep = prep;
+		this.setNameP(name);
+		this.setCalsP(String.valueOf(calories / servings));
 	}
 
 	/**
@@ -80,7 +87,7 @@ public class Recipe
 	{
 		this.servings = servings;
 	}
-	
+
 	/**
 	 * Gets the number of calories of the Recipe
 	 * 
@@ -100,7 +107,7 @@ public class Recipe
 	{
 		this.calories = calories;
 	}
-	
+
 	/**
 	 * Gets the ArrayList of Ingredients
 	 * 
@@ -120,7 +127,7 @@ public class Recipe
 	{
 		this.ingredients = ingredients;
 	}
-	
+
 	/**
 	 * Gets the ArrayList of tags
 	 * 
@@ -130,7 +137,7 @@ public class Recipe
 	{
 		return this.tags;
 	}
-	
+
 	/**
 	 * Sets the ArrayList of tags
 	 * 
@@ -140,7 +147,7 @@ public class Recipe
 	{
 		this.tags = tags;
 	}
-	
+
 	/**
 	 * Gets the prep instructions of the Recipe
 	 * 
@@ -160,7 +167,39 @@ public class Recipe
 	{
 		this.prep = prep;
 	}
-	
+
+	// JavaFX Wrappers for name for using table views!
+	public StringProperty nameProperty()
+	{
+		return nameP;
+	}
+
+	public final String getNameP()
+	{
+		return nameProperty().get();
+	}
+
+	public final void setNameP(String name)
+	{
+		nameProperty().set(name);
+	}
+
+	// JavaFX Wrappers for calories for using table views!
+	public StringProperty calsProperty()
+	{
+		return calsP;
+	}
+
+	public final String getCalsP()
+	{
+		return calsProperty().get();
+	}
+
+	public final void setCalsP(String cals)
+	{
+		calsProperty().set(cals);
+	}
+
 	/**
 	 * Overrides toString method to convert a recipe into a string
 	 * 
@@ -168,6 +207,6 @@ public class Recipe
 	 */
 	public String toString()
 	{
-		return(this.name + ", " + this.calories/this.servings + " calories per serving.");
+		return (this.name + ", " + this.calories / this.servings + " calories per serving.");
 	}
 }

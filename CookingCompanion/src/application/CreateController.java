@@ -94,6 +94,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				try
 				{
 					// Catches non int values in field
+					@SuppressWarnings("unused")
 					int servingTest = Integer.valueOf(totalServings.getText());
 					// Save stuff
 					saveData(recipeName.getText());
