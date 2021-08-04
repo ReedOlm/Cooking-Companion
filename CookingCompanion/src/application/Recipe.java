@@ -18,6 +18,7 @@ public class Recipe
 	private String name;
 	private int servings;
 	private int calories;
+	private int caloriesPerServing;
 	private ArrayList<Ingredient> ingredients;
 	private ArrayList<String> tags;
 	private ArrayList<String> prep;
@@ -46,6 +47,7 @@ public class Recipe
 		this.prep = prep;
 		this.setNameP(name);
 		this.setCalsP(String.valueOf(calories / servings));
+		this.caloriesPerServing = calories/servings;
 	}
 
 	/**
@@ -106,6 +108,27 @@ public class Recipe
 	public void setCalories(int calories)
 	{
 		this.calories = calories;
+	}
+	
+	/**
+	 * Gets the number of calories per serving
+	 * 
+	 * @return int Number of calories per serving
+	 */
+	public int getCaloriesPerServing()
+	{
+		return this.caloriesPerServing;
+	}
+	
+	/**
+	 * sets the number of calories per serving
+	 * 
+	 * @param calories Number of calories in recipe (int)
+	 * @param servings Number of servings in recipe (int)
+	 */
+	public void setCaloriesPerServing(int calories, int servings)
+	{
+		this.caloriesPerServing = calories/servings;
 	}
 
 	/**

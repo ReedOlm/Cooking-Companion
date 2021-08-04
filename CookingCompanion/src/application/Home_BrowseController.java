@@ -307,13 +307,6 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	// This puts the recipe arraylist into the listview
 	private void loadData()
 	{
-//		list.removeAll(list);
-//		for (int i = 0; i < recipes.size(); i++)
-//		{
-//			list.add(recipes.get(i).toString());
-//		}
-//		allRecipeList.getItems().addAll(list);
-		
 		ObservableList<Recipe> list = browseTable.getItems();
 		for(int i = 0; i < recipes.size(); i++)
 		{
