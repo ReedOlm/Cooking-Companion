@@ -18,8 +18,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -41,7 +42,10 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 
 	// Sets ids for JavaFX
 	@FXML
-	ListView<String> allRecipeList;
+	TableView<Recipe> browseTable;
+	
+	@FXML
+	TableColumn<Recipe, String> nameCol, cpsCol;
 
 	@FXML
 	Button createRecipeButton, searchButton, editRecipeButton, viewRecipeButton;
@@ -153,14 +157,15 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		// edit is clicked
 		else if (event.getSource() == editRecipeButton)
 		{
-			if (allRecipeList.getSelectionModel().getSelectedItem() != null)
+			if (browseTable.getSelectionModel().getSelectedItem() != null)
 			{
 				// Write your data to the pass csv
-				writePass(allRecipeList.getSelectionModel().getSelectedItem());
-				if (allRecipeList.getSelectionModel().getSelectedItem() == "null")
-				{
-					System.out.println("Swag");
-				}
+				writePass(browseTable.getSelectionModel().getSelectedItem().getName());
+//				if (browseTable.getSelectionModel().getSelectedItem().getName() == "null")
+//				{
+//					//When the hell can this happen
+//					System.out.println("Swag");
+//				}
 
 				// goes to the Search Screen
 				Stage appStage;
@@ -188,10 +193,10 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		// view is clicked
 		else if (event.getSource() == viewRecipeButton)
 		{
-			if (allRecipeList.getSelectionModel().getSelectedItem() != null)
+			if (browseTable.getSelectionModel().getSelectedItem() != null)
 			{
 				// Write your data to the pass csv
-				writePass(allRecipeList.getSelectionModel().getSelectedItem());
+				writePass(browseTable.getSelectionModel().getSelectedItem().getName());
 
 				// goes to the View Screen
 				Stage appStage;
@@ -228,6 +233,10 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
+		nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		cpsCol.setCellValueFactory(cellData -> cellData.getValue().calsProperty());
+		browseTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
 		// Update listview
 		try
 		{
@@ -238,7 +247,6 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 			e.printStackTrace();
 		}
 		loadData();
-		allRecipeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
 
 	void initData(String test)
@@ -299,14 +307,19 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	// This puts the recipe arraylist into the listview
 	private void loadData()
 	{
-		list.removeAll(list);
-
-		for (int i = 0; i < recipes.size(); i++)
+//		list.removeAll(list);
+//		for (int i = 0; i < recipes.size(); i++)
+//		{
+//			list.add(recipes.get(i).toString());
+//		}
+//		allRecipeList.getItems().addAll(list);
+		
+		ObservableList<Recipe> list = browseTable.getItems();
+		for(int i = 0; i < recipes.size(); i++)
 		{
-			list.add(recipes.get(i).toString());
+			list.add(recipes.get(i));
 		}
-
-		allRecipeList.getItems().addAll(list);
+		browseTable.setItems(list);
 	}
 
 	// This writes data to pass.csv
@@ -315,7 +328,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		try
 		{
 			FileWriter writer = new FileWriter("src/application/data/pass.csv", false);
-			writer.append(allRecipeList.getSelectionModel().getSelectedItem());
+			writer.append(selectedItem);
 			writer.append("\n");
 			writer.flush();
 			writer.close();

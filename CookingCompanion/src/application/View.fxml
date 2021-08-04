@@ -25,30 +25,30 @@
                   <Font size="25.0" />
                </font>
             </Text>
-            <Text fx:id="servings" layoutX="919.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="44.4765625">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Text>
             <Text layoutX="693.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calories per Serving">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="919.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="44.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="596.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="93.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="201.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="384.0" />
+            <Line endX="1080.0" layoutY="67.0" strokeWidth="4.0" />
             <Text fx:id="calories" layoutX="596.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="92.5537109375">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
-            <Text fx:id="name" layoutX="201.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Tso's Chicken" textAlignment="CENTER" wrappingWidth="384.43359375">
+            <Text fx:id="servings" layoutX="919.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="44.4765625">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="50.0" layoutX="919.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="44.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="50.0" layoutX="596.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="93.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="50.0" layoutX="201.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="384.0" />
-            <Line endX="1080.0" layoutY="67.0" strokeWidth="4.0" />
+            <Text fx:id="name" layoutX="201.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" textAlignment="CENTER" wrappingWidth="384.43359375">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
          </children></Pane>
       <ListView fx:id="instructions" layoutX="506.0" layoutY="100.0" prefHeight="699.0" prefWidth="560.0" />
       <ListView fx:id="tagList" layoutX="14.0" layoutY="693.0" prefHeight="106.0" prefWidth="486.0" />

@@ -4,15 +4,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Ingredient is a Java class representing an Ingredient object with a name, amount,
- * unit of measurement, and number of calories. Contains methods for getting and setting
- * all data fields.
+ * Ingredient is a Java class representing an Ingredient object with a name,
+ * amount, unit of measurement, and number of calories. Contains methods for
+ * getting and setting all data fields.
  *
  * @author Reed Olm - avr414 - UTSA CS 3443 - CookingCompanion 2021
  */
 public class Ingredient
 {
-	//TODO Data field
+	// TODO Data field
 	private String name;
 	private double amount;
 	private EUnitType unit;
@@ -23,12 +23,12 @@ public class Ingredient
 	private final StringProperty caloriesP = new SimpleStringProperty();
 
 	/**
-	 * constructor: 4-arg constructor, taking in a name, an amount,
-	 * a unit, and calories
+	 * constructor: 4-arg constructor, taking in a name, an amount, a unit, and
+	 * calories
 	 * 
-	 * @param name Name of Ingredient (String)
-	 * @param amount Amount of Ingredient (double)
-	 * @param unit Unit of measurement (EUnitType)
+	 * @param name     Name of Ingredient (String)
+	 * @param amount   Amount of Ingredient (double)
+	 * @param unit     Unit of measurement (EUnitType)
 	 * @param calories Number of calories in Ingredient (int)
 	 */
 	public Ingredient(String name, double amount, EUnitType unit, int calories)
@@ -42,14 +42,13 @@ public class Ingredient
 		this.setUnitP(unit);
 		this.setCaloriesP(calories);
 	}
-	
+
 	/**
-	 * constructor: 3-arg constructor, taking in a name, an amount,
-	 * and unit
+	 * constructor: 3-arg constructor, taking in a name, an amount, and unit
 	 * 
-	 * @param name Name of Ingredient (String)
+	 * @param name   Name of Ingredient (String)
 	 * @param amount Amount of Ingredient (double)
-	 * @param unit Unit of measurement (EUnitType)
+	 * @param unit   Unit of measurement (EUnitType)
 	 */
 	public Ingredient(String name, double amount, EUnitType unit)
 	{
@@ -58,7 +57,7 @@ public class Ingredient
 		this.unit = unit;
 		this.calories = 0;
 	}
-	
+
 	/**
 	 * constructor: no-arg constructor defaults to nothing
 	 */
@@ -109,7 +108,7 @@ public class Ingredient
 	{
 		this.amount = amount;
 	}
-	
+
 	/**
 	 * Gets the unit of the Ingredient
 	 * 
@@ -129,7 +128,7 @@ public class Ingredient
 	{
 		this.unit = unit;
 	}
-	
+
 	/**
 	 * Gets the calories of the Ingredient
 	 * 
@@ -149,58 +148,66 @@ public class Ingredient
 	{
 		this.calories = calories;
 	}
-	
-	//JavaFX Wrappers for name for using table views!
+
+	// JavaFX Wrappers for name for using table views!
 	public StringProperty nameProperty()
 	{
 		return nameP;
 	}
+
 	public final String getNameP()
 	{
 		return nameProperty().get();
 	}
+
 	public final void setNameP(String name)
 	{
 		nameProperty().set(name);
 	}
-	
-	//JavaFX Wrappers for amount for using table views!
+
+	// JavaFX Wrappers for amount for using table views!
 	public StringProperty amountProperty()
 	{
 		return amountP;
 	}
+
 	public final String getAmountP()
 	{
 		return amountProperty().get();
 	}
+
 	public final void setAmountP(double amount)
 	{
 		amountProperty().set(String.valueOf(amount));
 	}
-	
-	//JavaFX Wrappers for amount for using table views!
+
+	// JavaFX Wrappers for amount for using table views!
 	public StringProperty unitProperty()
 	{
 		return unitP;
 	}
+
 	public final String getUnitP()
 	{
 		return unitProperty().get();
 	}
+
 	public final void setUnitP(EUnitType unit)
 	{
 		unitProperty().set(unit.toString());
 	}
-	
-	//JavaFX Wrappers for amount for using table views!
+
+	// JavaFX Wrappers for amount for using table views!
 	public StringProperty caloriesProperty()
 	{
 		return caloriesP;
 	}
+
 	public final String getCaloriesP()
 	{
 		return caloriesProperty().get();
 	}
+
 	public final void setCaloriesP(int calories)
 	{
 		caloriesProperty().set(String.valueOf(calories));
