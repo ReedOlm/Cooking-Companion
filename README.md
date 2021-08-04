@@ -42,9 +42,9 @@ save what you just did, so be careful!
   - [x] Allow user to return to Browse
 - [ ] Search view
   - [x] Exist
-  - [ ] Load data based on search
+  - [x] Load data based on search
   - [ ] Delete and save after confirmation
   - [ ] Allow you to go into edit/view mode on a recipe
-  - [ ] Allow user to return to browse
+  - [x] Allow user to return to browse
 - [ ] Beautify UI
 - [ ] Comment Code Better
