@@ -34,12 +34,12 @@ save what you just did, so be careful!
 - [x] Edit view
   - [x] Allow user to edit reipes
   - [x] Produce success/error messages when the user interacts.
-- [ ] View view
+- [x] View view
   - [x] Exist
-  - [ ] Load data based on what was clicked
-  - [ ] Checkbox for ingredients
-  - [ ] Checkbox for prep instructions
-  - [ ] Allow user to return to Browse
+  - [x] Load data based on what was clicked
+  - [x] Displays Ingredients, amount, and units
+  - [x] Displays Instructions, and tags
+  - [x] Allow user to return to Browse
 - [ ] Search view
   - [x] Exist
   - [ ] Load data based on search
