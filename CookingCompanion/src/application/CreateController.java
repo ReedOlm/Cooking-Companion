@@ -82,25 +82,46 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				e.printStackTrace();
 			}
 		}
-		
+
 		// Save button
 		else if (event.getSource() == save)
 		{
-			// Save stuff
-			saveData(recipeName.getText());
+			if (recipeName.getText().contains(","))
+			{
+				ingError.setText("Please don't use commas.");
+			} else
+			{
+				try
+				{
+					// Catches non int values in field
+					int servingTest = Integer.valueOf(totalServings.getText());
+					// Save stuff
+					saveData(recipeName.getText());
+				} catch (NumberFormatException e)
+				{
+					ingError.setText("Error: Please only use numbers in the serving size");
+				}
+
+			}
 		}
-		
+
 		// AddInstruction
 		else if (event.getSource() == addInstruction)
 		{
 			if (enterInstruction.getText() != "")
 			{
-				String entered = enterInstruction.getText();
-				instructions.getItems().addAll(entered);
-				enterInstruction.clear();
+				if (enterInstruction.getText().contains(","))
+				{
+					ingError.setText("Please don't use commas.");
+				} else
+				{
+					String entered = enterInstruction.getText();
+					instructions.getItems().addAll(entered);
+					enterInstruction.clear();
+				}
 			}
 		}
-		
+
 		// RemoveInstruction
 		else if (event.getSource() == removeInstruction)
 		{
@@ -111,18 +132,24 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			}
 			enterInstruction.clear();
 		}
-		
+
 		// Add Tag
 		else if (event.getSource() == addTag)
 		{
 			if (enterTag.getText() != "")
 			{
-				String entered = enterTag.getText();
-				tagList.getItems().addAll(entered);
-				enterTag.clear();
+				if (enterTag.getText().contains(","))
+				{
+					ingError.setText("Please don't use commas.");
+				} else
+				{
+					String entered = enterTag.getText();
+					tagList.getItems().addAll(entered);
+					enterTag.clear();
+				}
 			}
 		}
-		
+
 		// Remove Tag
 		else if (event.getSource() == removeTag)
 		{
@@ -133,38 +160,45 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			}
 			enterTag.clear();
 		}
-		
+
 		// Add Ingredient
 		else if (event.getSource() == addIngredient)
 		{
 			ObservableList<Ingredient> list = ingredientList.getItems();
-			try {
-			if (enterName.getText() != "" && enterAmount.getText() != "" && unitSelection.getValue() != null && enterCalories.getText() != "")
+			try
 			{
-				Ingredient ing = new Ingredient(enterName.getText(), Double.valueOf(enterAmount.getText()), unitSelection.getValue(), Integer.valueOf(enterCalories.getText()));
-				list.add(ing);
-				ingredientList.setItems(list);
-				enterName.clear();
-				enterAmount.clear();
-				unitSelection.getSelectionModel().clearSelection();
-				unitSelection.setValue(null);
-				enterCalories.clear();
-			}else
-			{
-				ingError.setText("Error: Fill out all 4 ingredient fields.");
-			}
-			int sum = 0;
-			for (int i = 0; i < list.size(); i++)
-			{
-				sum += list.get(i).getCalories();
-			}
-			caloriesTotal.setText(String.valueOf(sum));
-			} catch(NumberFormatException e)
+				if (enterName.getText() != "" && enterAmount.getText() != "" && unitSelection.getValue() != null && enterCalories.getText() != "")
+				{
+					if (enterName.getText().contains(","))
+					{
+						ingError.setText("Please don't use commas.");
+					} else
+					{
+						Ingredient ing = new Ingredient(enterName.getText(), Double.valueOf(enterAmount.getText()), unitSelection.getValue(), Integer.valueOf(enterCalories.getText()));
+						list.add(ing);
+						ingredientList.setItems(list);
+						enterName.clear();
+						enterAmount.clear();
+						unitSelection.getSelectionModel().clearSelection();
+						unitSelection.setValue(null);
+						enterCalories.clear();
+					}
+				} else
+				{
+					ingError.setText("Error: Fill out all 4 ingredient fields.");
+				}
+				int sum = 0;
+				for (int i = 0; i < list.size(); i++)
+				{
+					sum += list.get(i).getCalories();
+				}
+				caloriesTotal.setText(String.valueOf(sum));
+			} catch (NumberFormatException e)
 			{
 				ingError.setText("Error: Only enter numbers into amount and calorie boxes.");
 			}
 		}
-		
+
 		// Remove Ingredient
 		else if (event.getSource() == removeIngredient)
 		{
