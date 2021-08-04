@@ -199,7 +199,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		{
 			for (int i = 0; i < recipes.size(); i++)
 			{
-				if (recipes.get(i).getName().equalsIgnoreCase(target))
+				if (recipes.get(i).getName().toLowerCase().contains(target.toLowerCase()))
 				{
 					filteredRecipes.add(recipes.get(i));
 				}
@@ -214,7 +214,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 			{
 				for (int j = 0; j < recipes.get(i).getIngredients().size(); j++)
 				{
-					if (recipes.get(i).getIngredients().get(j).getName().equalsIgnoreCase(target))
+					if (recipes.get(i).getIngredients().get(j).getName().toLowerCase().contains(target.toLowerCase()))
 					{
 						filteredRecipes.add(recipes.get(i));
 					}
@@ -230,7 +230,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 			{
 				for (int j = 0; j < recipes.get(i).getTags().size(); j++)
 				{
-					if (recipes.get(i).getTags().get(j).equalsIgnoreCase(target))
+					if (recipes.get(i).getTags().get(j).toLowerCase().contains(target.toLowerCase()))
 					{
 						filteredRecipes.add(recipes.get(i));
 					}
