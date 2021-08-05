@@ -201,7 +201,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 				// goes to the View Screen
 				Stage appStage;
 				Parent root;
-				appStage = (Stage) createRecipeButton.getScene().getWindow();
+				appStage = (Stage) viewRecipeButton.getScene().getWindow();
 				try
 				{
 					root = FXMLLoader.load(getClass().getResource("View.fxml"));
@@ -211,7 +211,6 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 					appStage.show();
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else
