@@ -89,7 +89,11 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 			if (recipeName.getText().contains(","))
 			{
 				ingError.setText("Please don't use commas.");
-			} else
+			} 
+			else if(recipeName.getText().equals(""))
+			{
+				ingError.setText("Please enter a recipe name.");
+			}else
 			{
 				try
 				{
