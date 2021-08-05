@@ -32,14 +32,12 @@ save what you just did, so be careful!
    - [x] Allow user to go to Create/View/Edit/Search screens
 - [x] Create view
   - [x] Allow user to create and store recipes with Names, Ingredients, Serving sizes, tags, and prep instructions.
-  - [ ] Disallow Recipes with no-name, or no ingredients.
 - [x] Edit view
   - [x] Allow user to edit and save already-entered recipes with ease.
-  - [ ] Disallow Recipes with no-name, or no ingredients.
 - [x] View view
   - [x] Displays Ingredients, amount, and units
   - [x] Displays Instructions, and tags
-- [ ] Search view
+- [x] Search view
   - [x] Load data based on search
   - [x] Allow user to go into edit/view mode on a recipe
   - [x] Allow user to delete a recipe permanently with a simple confirmation.
