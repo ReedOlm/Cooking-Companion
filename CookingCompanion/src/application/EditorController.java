@@ -137,15 +137,15 @@ public class EditorController implements Initializable, EventHandler<ActionEvent
 			enterInstruction.clear();
 		}
 
-		// Add Tag
-		else if (event.getSource() == addTag)
+		// Remove Tag
+		else if (event.getSource() == removeTag)
 		{
-			if (enterTag.getText() != "")
+			ObservableList<String> list = tagList.getItems();
+			if (list.contains(enterTag.getText()))
 			{
-				String entered = enterTag.getText();
-				tagList.getItems().addAll(entered);
-				enterTag.clear();
+				list.remove(enterTag.getText());
 			}
+			enterTag.clear();
 		}
 
 		// Add Tag
