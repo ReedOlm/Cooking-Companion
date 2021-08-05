@@ -179,7 +179,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 	{
 		confirmButton.setDisable(true);
 	}
-
+//THIS IS A GIT TEST
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
