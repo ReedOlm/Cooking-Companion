@@ -32,11 +32,36 @@
             </Text>
             <Line endX="1080.0" layoutY="67.0" strokeWidth="4.0" />
          </children></Pane>
-      <TableView fx:id="trimmedRecipeList" layoutX="14.0" layoutY="75.0" prefHeight="627.0" prefWidth="1055.0">
+      <TableView fx:id="trimmedRecipeList" layoutX="13.0" layoutY="82.0" onMouseClicked="#confirmCancel" prefHeight="628.0" prefWidth="1054.0">
         <columns>
           <TableColumn fx:id="colName" prefWidth="831.0" sortable="false" text="Recipe Name" />
           <TableColumn fx:id="colCals" prefWidth="225.0" sortable="false" text="Calories per Serving" />
         </columns>
       </TableView>
+      <Button fx:id="viewButton" layoutX="423.0" layoutY="733.0" mnemonicParsing="false" onAction="#handle" prefHeight="50.0" prefWidth="235.0" text="View Recipe">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="editButton" layoutX="153.0" layoutY="733.0" mnemonicParsing="false" onAction="#handle" prefHeight="50.0" prefWidth="235.0" text="Edit Recipe">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="693.0" layoutY="733.0" mnemonicParsing="false" onAction="#handle" prefHeight="52.0" prefWidth="186.0" text="Delete Recipe">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="confirmButton" disable="true" layoutX="897.0" layoutY="733.0" mnemonicParsing="false" onAction="#handle" prefHeight="52.0" prefWidth="169.0" text="Confirm">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Text fx:id="errorText" layoutX="42.0" layoutY="729.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="976.13671875">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

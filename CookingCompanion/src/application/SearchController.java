@@ -2,6 +2,7 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -39,10 +41,10 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 
 	// Sets ids for JavaFX
 	@FXML
-	public Button exitButton, viewButton, editButton, deleteButton;
+	public Button exitButton, viewButton, editButton, deleteButton, confirmButton;
 
 	@FXML
-	public Text searchType, searchTarget;
+	public Text searchType, searchTarget, errorText;
 
 	@FXML
 	public TableView<Recipe> trimmedRecipeList;
@@ -56,9 +58,10 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 	 * 
 	 * @param event ActionEvent to get ActionEvent (ActionEvent)
 	 */
-	@Override // Happens when button is clicked
+	@Override
 	public void handle(ActionEvent event)
 	{
+		// Happens when exit button is clicked
 		if (event.getSource() == exitButton)
 		{
 			Stage appStage;
@@ -73,10 +76,108 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				appStage.show();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+
+		// Happens when view button is clicked
+		else if (event.getSource() == viewButton)
+		{
+			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
+			{
+				// Write your data to the pass csv
+				writePass(trimmedRecipeList.getSelectionModel().getSelectedItem().getName());
+
+				// goes to the View Screen
+				Stage appStage;
+				Parent root;
+				appStage = (Stage) viewButton.getScene().getWindow();
+				try
+				{
+					root = FXMLLoader.load(getClass().getResource("View.fxml"));
+					Scene scene = new Scene(root);
+					appStage.setScene(scene);
+					appStage.setTitle("Cooking Companion - View Recipe");
+					appStage.show();
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			} else
+			{
+				errorText.setText("Error: Please choose a recipe.");
+			}
+		}
+
+		// Happens when edit button is clicked
+		else if (event.getSource() == editButton)
+		{
+			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
+			{
+				// Write data to pass csv
+				writePass(trimmedRecipeList.getSelectionModel().getSelectedItem().getName());
+
+				// Goes to edit screen
+				Stage appStage;
+				Parent root;
+				appStage = (Stage) editButton.getScene().getWindow();
+				try
+				{
+					root = FXMLLoader.load(getClass().getResource("Editor.fxml"));
+					Scene scene = new Scene(root);
+					appStage.setScene(scene);
+					;
+					appStage.setTitle("Cooking Companion - Edit Recipe");
+					appStage.show();
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		// Happens when confirm button is clicked
+		else if (event.getSource() == confirmButton)
+		{
+			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
+			{
+				String name = trimmedRecipeList.getSelectionModel().getSelectedItem().getName();
+				ObservableList<Recipe> list = trimmedRecipeList.getItems();
+				list.remove(trimmedRecipeList.getSelectionModel().getSelectedItem());
+				trimmedRecipeList.setItems(list);
+
+				for (int i = 0; i < recipes.size(); i++)
+				{
+					if (recipes.get(i).getName().equals(name))
+					{
+						recipes.remove(i);
+					}
+				}
+				try
+				{
+					saveData();
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+
+			confirmButton.setDisable(true);
+		}
+
+		// Happens when delete button is clicked
+		else if (event.getSource() == deleteButton)
+		{
+			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
+			{
+				confirmButton.setDisable(false);
+			}
+		}
+	}
+
+	@FXML
+	private void confirmCancel(MouseEvent event)
+	{
+		confirmButton.setDisable(true);
 	}
 
 	@Override
@@ -251,6 +352,84 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				}
 			}
 			filteredRecipes.sort(Comparator.comparing(Recipe::getCaloriesPerServing));
+		}
+	}
+
+	// This writes data to pass.csv
+	private void writePass(String selectedItem)
+	{
+		try
+		{
+			FileWriter writer = new FileWriter("src/application/data/pass.csv", false);
+			writer.append(selectedItem);
+			writer.append("\n");
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+	}
+
+	// This puts the recipe arraylist into the listview
+	private void saveData() throws IOException
+	{
+		FileWriter writer;
+		try
+		{
+			writer = new FileWriter("src/application/data/recipes.csv", false);
+			for (int x = 0; x < recipes.size(); x++)
+			{
+				Recipe cur = recipes.get(x);
+				// write Recipe name
+				writer.append(cur.getName());
+				writer.append(",");
+				// write Recipe Calories
+				writer.append(String.valueOf(cur.getCalories()));
+				writer.append(",");
+				// write Recipe Servings
+				writer.append(String.valueOf(cur.getServings()));
+				writer.append(",");
+				// write numTags and Tags
+				writer.append(String.valueOf(cur.getTags().size()));
+				writer.append(",");
+				for (int i = 0; i < cur.getTags().size(); i++)
+				{
+					writer.append(cur.getTags().get(i));
+					writer.append(",");
+				}
+				// write numSteps and Steps
+				writer.append(String.valueOf(cur.getPrep().size()));
+				writer.append(",");
+				for (int i = 0; i < cur.getPrep().size(); i++)
+				{
+					writer.append(cur.getPrep().get(i));
+					writer.append(",");
+				}
+
+				// write numIngredients and Ingredients
+				writer.append(String.valueOf(cur.getIngredients().size()));
+				writer.append(",");
+				for (int i = 0; i < cur.getIngredients().size(); i++)
+				{
+					writer.append(cur.getIngredients().get(i).getName());
+					writer.append(",");
+					writer.append(String.valueOf(cur.getIngredients().get(i).getAmount()));
+					writer.append(",");
+					writer.append(cur.getIngredients().get(i).getUnit().getText());
+					writer.append(",");
+					writer.append(String.valueOf(cur.getIngredients().get(i).getCalories()));
+					writer.append(",");
+				}
+				writer.append("\n");
+			}
+
+			writer.flush();
+			writer.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
