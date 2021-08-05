@@ -27,24 +27,21 @@ save what you just did, so be careful!
 
 # TODO
 - [x] Home view
-- [x] Browse view
+   - [ ] Maybe just lose this whole screen, seems superfluous
+- [x] HomeBrowse view
+   - [x] Allow user to go to Create/View/Edit/Search screens
 - [x] Create view
-  - [x] Allow user to create recipes
-  - [x] Produce success/error messages when the user interacts.
+  - [x] Allow user to create and store recipes with Names, Ingredients, Serving sizes, tags, and prep instructions.
+  - [ ] Disallow Recipes with no-name, or no ingredients.
 - [x] Edit view
-  - [x] Allow user to edit reipes
-  - [x] Produce success/error messages when the user interacts.
+  - [x] Allow user to edit and save already-entered recipes with ease.
+  - [ ] Disallow Recipes with no-name, or no ingredients.
 - [x] View view
-  - [x] Exist
-  - [x] Load data based on what was clicked
   - [x] Displays Ingredients, amount, and units
   - [x] Displays Instructions, and tags
-  - [x] Allow user to return to Browse
 - [ ] Search view
-  - [x] Exist
   - [x] Load data based on search
-  - [ ] Delete and save after confirmation
-  - [ ] Allow you to go into edit/view mode on a recipe
-  - [x] Allow user to return to browse
+  - [x] Allow user to go into edit/view mode on a recipe
+  - [x] Allow user to delete a recipe permanently with a simple confirmation.
 - [ ] Beautify UI
 - [ ] Comment Code Better
