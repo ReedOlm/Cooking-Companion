@@ -27,38 +27,37 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage)
 	{
+		// Create Data files if it doesn't exist
+		try
+		{
+			// Create directory if it doesn't exist
+			new File("src/application/data").mkdirs();
+			// Create files if it doesn't exist
+			File fileA = new File("src/application/data/recipes.csv");
+			File fileB = new File("src/application/data/pass.csv");
+			// Could add new user message maybe? These only happen if new files are made.
+			if (fileA.createNewFile())
+			{
+			} else
+			{
+			}
+			if (fileB.createNewFile())
+			{
+			} else
+			{
+			}
+
+		} catch (IOException e)
+		{
+			System.out.println("Error with file creation.");
+			e.printStackTrace();
+		}
 		try
 		{
 			// Create home scene
 			Pane home = (Pane) FXMLLoader.load(getClass().getResource("Home_Browse.fxml"));
 			Scene homeScene = new Scene(home, 1080, 810);
 			homeScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-			// Create Data files if it doesn't exist
-			try
-			{
-				// Create directory if it doesn't exist
-				new File("src/application/data").mkdirs();
-				// Create files if it doesn't exist
-				File fileA = new File("src/application/data/recipes.csv");
-				File fileB = new File("src/application/data/pass.csv");
-				// Could add new user message maybe? These only happen if new files are made.
-				if (fileA.createNewFile())
-				{
-				} else
-				{
-				}
-				if (fileB.createNewFile())
-				{
-				} else
-				{
-				}
-
-			} catch (IOException e)
-			{
-				System.out.println("Error with file creation.");
-				e.printStackTrace();
-			}
 			// Set up primary stage to open home, as well as load the stages
 			primaryStage.setScene(homeScene);
 			primaryStage.setTitle("Cooking Companion - Home");
