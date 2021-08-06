@@ -374,10 +374,13 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		{
 			for (int i = 0; i < recipes.size(); i++)
 			{
+				//Stops ingredients with similar names from making the recipe appear twice (eg garlic & garlic powder)
+				boolean duplicateFlag = false;
 				for (int j = 0; j < recipes.get(i).getIngredients().size(); j++)
 				{
-					if (recipes.get(i).getIngredients().get(j).getName().toLowerCase().contains(target.toLowerCase()))
+					if (recipes.get(i).getIngredients().get(j).getName().toLowerCase().contains(target.toLowerCase()) && !duplicateFlag)
 					{
+						duplicateFlag = true;
 						filteredRecipes.add(recipes.get(i));
 					}
 				}
@@ -391,10 +394,13 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		{
 			for (int i = 0; i < recipes.size(); i++)
 			{
+				//Stops tags with similar names from making the recipe appear twice (eg something like One Pot and Hot Pot)
+				boolean duplicateFlag = false;
 				for (int j = 0; j < recipes.get(i).getTags().size(); j++)
 				{
-					if (recipes.get(i).getTags().get(j).toLowerCase().contains(target.toLowerCase()))
+					if (recipes.get(i).getTags().get(j).toLowerCase().contains(target.toLowerCase()) && !duplicateFlag)
 					{
+						duplicateFlag = true;
 						filteredRecipes.add(recipes.get(i));
 					}
 				}
