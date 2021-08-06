@@ -26,8 +26,6 @@ save what you just did, so be careful!
 - If you mess with the formatting, the contents will be overwritten, and you will lose all your saved recipes so don't do it
 
 # TODO
-- [x] Home view
-   - [ ] Maybe just lose this whole screen, seems superfluous
 - [x] HomeBrowse view
    - [x] Allow user to go to Create/View/Edit/Search screens
    - [x] Allow user to see a list of all recipes easily from the home screen
@@ -43,6 +41,5 @@ save what you just did, so be careful!
   - [x] Load data based on search
   - [x] Allow user to go into edit/view mode on a recipe
   - [x] Allow user to delete a recipe permanently with a simple confirmation.
-  - [ ] Fix bug when deleting that adds a line to recipes!
 - [ ] Beautify UI
 - [ ] Comment Code Better
