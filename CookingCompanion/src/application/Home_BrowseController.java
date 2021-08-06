@@ -43,7 +43,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	// Sets ids for JavaFX
 	@FXML
 	TableView<Recipe> browseTable;
-	
+
 	@FXML
 	TableColumn<Recipe, String> nameCol, cpsCol;
 
@@ -57,11 +57,13 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 	Text errorText;
 
 	/**
-	 * Overrides handle event to get action events from JavaFX shuffles 3 cards
-	 * after button is pressed
+	 * Overrides handle event to get button action events from JavaFX, branching
+	 * if-statements detect each specific button buttons include: Search, Create,
+	 * Edit, and View
 	 * 
 	 * @param event ActionEvent to get ActionEvent (ActionEvent)
 	 */
+	@FXML
 	@Override
 	public void handle(ActionEvent event)
 	{
@@ -70,6 +72,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		if (event.getSource() == searchButton)
 		{
 			// if all 4 text fields are empty, produce error message
+			// if there's text where there should only be numbers, produce error message
 			String name = nameSearch.getText();
 			String ingredient = ingredientSearch.getText();
 			String tag = tagSearch.getText();
@@ -95,7 +98,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 			} else
 
 			{
-				// Write your data to the pass csv
+				// Write your data to the pass csv, this ideally should be it's own function
 				try
 				{
 					FileWriter writer = new FileWriter("src/application/data/pass.csv", false);
@@ -115,7 +118,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 					e1.printStackTrace();
 				}
 
-				// goes to the Search Screen
+				// starts the process of swapping scenes to the Search scene
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -128,7 +131,6 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 					appStage.show();
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -138,6 +140,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		else if (event.getSource() == createRecipeButton)
 		{
 			// Opens the Blank recipe editor
+			// starts the process of swapping scenes to the Create scene
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -149,7 +152,6 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 				appStage.show();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -159,15 +161,10 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		{
 			if (browseTable.getSelectionModel().getSelectedItem() != null)
 			{
-				// Write your data to the pass csv
+				// Write your data to the pass.csv
 				writePass(browseTable.getSelectionModel().getSelectedItem().getName());
-//				if (browseTable.getSelectionModel().getSelectedItem().getName() == "null")
-//				{
-//					//When the hell can this happen
-//					System.out.println("Swag");
-//				}
 
-				// goes to the Search Screen
+				// starts the process of swapping scenes to the Edit scene
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) createRecipeButton.getScene().getWindow();
@@ -180,14 +177,12 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 					appStage.show();
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else
 			{
 				errorText.setText("Error: Please choose a recipe.");
 			}
-
 		}
 
 		// view is clicked
@@ -198,7 +193,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 				// Write your data to the pass csv
 				writePass(browseTable.getSelectionModel().getSelectedItem().getName());
 
-				// goes to the View Screen
+				// starts the process of swapping scenes to the View scene
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) viewRecipeButton.getScene().getWindow();
@@ -220,6 +215,13 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		}
 	}
 
+	/**
+	 * MouseEvent action event detector, that clears all the text fields when any
+	 * text field is clicked this forces the user to only be able to enter one
+	 * single search term at a time instead of dealing with that myself
+	 * 
+	 * @param event MouseEvent to get MouseEvent (MouseEvent)
+	 */
 	@FXML
 	private void clearTextFields(MouseEvent event)
 	{
@@ -229,37 +231,55 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 		caloriesSearch.clear();
 	}
 
+	/**
+	 * Overrides initialize event to initialize previously declared FXML data and
+	 * data containers
+	 * 
+	 * @param arg0 URL default initialize param (URL)
+	 * @param arg1 ResourceBundle default initialize param (ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
+		// Sets the table to properly place Ingredient info into the correct columns
+		// using
+		// a lambda expression and wrappers from the Recipe java file
 		nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		cpsCol.setCellValueFactory(cellData -> cellData.getValue().calsProperty());
+
+		// Sets selection modes for lists/table Views to single selection
 		browseTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		
-		// Update listview
+
+		// Initializes the Table view with file data
+		// reads from file and stores in arrayList
 		try
 		{
 			readData();
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// takes from arrayList and places in table view
 		loadData();
 	}
 
-	void initData(String test)
-	{
-		tagSearch.setText(test);
-	}
-
-	// This reads the saved recipe information into a recipe arrayList
+	/**
+	 * Function that reads from recipes.csv, and places the parsed information into
+	 * the recipes ArrayList for the current view.
+	 * 
+	 */
 	private void readData() throws IOException
 	{
 		String row;
 		BufferedReader csvReader = new BufferedReader(new FileReader("src/application/data/recipes.csv"));
+		// Parse file
 		while ((row = csvReader.readLine()) != null)
 		{
+			// Reads csv and inputs data into Recipe objects following my file formatting.
+			// Field 1: Name, Field 2: Total Calories, Field 3: Servings in the Recipe
+			// Field 4: x Number of Tags, next x Fields are the tags.
+			// Field 4+x: y Number of Ingredients, next y fields are the tags.
+			// Field 4+x+y: z Number of Instructions, next z fields are the instructions.
 			String[] data = row.split(",");
 			int i = 0;
 			int j = 0;
@@ -283,6 +303,7 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 				prep.add(data[4 + i]);
 				i++;
 			}
+			prep.remove(0); // Fixes an off-By-One error
 
 			int numIngredients = Integer.parseInt(data[4 + i]);
 			for (j = 0; j < numIngredients; j++)
@@ -297,24 +318,34 @@ public class Home_BrowseController implements EventHandler<ActionEvent>, Initial
 				ingredients.add(ingredient);
 			}
 
+			// Adds recipe to arraylist
 			Recipe recipe = new Recipe(name, servings, calories, ingredients, tags, prep);
 			recipes.add(recipe);
 		}
 		csvReader.close();
 	}
 
-	// This puts the recipe arraylist into the listview
+	/**
+	 * Function that reads from Recipes ArrayList, and places the parsed information
+	 * into the Recipes TableView
+	 * 
+	 */
 	private void loadData()
 	{
 		ObservableList<Recipe> list = browseTable.getItems();
-		for(int i = 0; i < recipes.size(); i++)
+		for (int i = 0; i < recipes.size(); i++)
 		{
 			list.add(recipes.get(i));
 		}
 		browseTable.setItems(list);
 	}
 
-	// This writes data to pass.csv
+	/**
+	 * Function that writes to pass.csv the name of the Recipe we are going to
+	 * edit/view
+	 * 
+	 * @param selectedItem name of the Recipe we are writing the the file (String)
+	 */
 	private void writePass(String selectedItem)
 	{
 		try

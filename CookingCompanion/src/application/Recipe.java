@@ -14,7 +14,6 @@ import javafx.beans.property.StringProperty;
  */
 public class Recipe
 {
-	// TODO Data fields
 	private String name;
 	private int servings;
 	private int calories;
@@ -22,6 +21,7 @@ public class Recipe
 	private ArrayList<Ingredient> ingredients;
 	private ArrayList<String> tags;
 	private ArrayList<String> prep;
+	//Wrappers that allow TableView to display Recipes
 	private final StringProperty nameP = new SimpleStringProperty();
 	private final StringProperty calsP = new SimpleStringProperty();
 
@@ -38,7 +38,6 @@ public class Recipe
 	 */
 	public Recipe(String name, int servings, int calories, ArrayList<Ingredient> ingredients, ArrayList<String> tags, ArrayList<String> prep)
 	{
-		// TODO Arg Constructor
 		this.name = name;
 		this.servings = servings;
 		this.calories = calories;
@@ -221,15 +220,5 @@ public class Recipe
 	public final void setCalsP(String cals)
 	{
 		calsProperty().set(cals);
-	}
-
-	/**
-	 * Overrides toString method to convert a recipe into a string
-	 * 
-	 * @return String string representing a recipe
-	 */
-	public String toString()
-	{
-		return (this.name + ", " + this.calories / this.servings + " calories per serving.");
 	}
 }
