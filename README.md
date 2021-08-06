@@ -31,6 +31,7 @@ save what you just did, so be careful!
 - [x] HomeBrowse view
    - [x] Allow user to go to Create/View/Edit/Search screens
    - [x] Allow user to see a list of all recipes easily from the home screen
+   - [ ] Allow User to delete recipes?
 - [x] Create view
   - [x] Allow user to create and store recipes with Names, Ingredients, Serving sizes, tags, and prep instructions.
 - [x] Edit view
