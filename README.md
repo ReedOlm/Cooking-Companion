@@ -15,7 +15,7 @@ to allow you to group and find your recipies later. For example, say you have a 
     - by Calories: Enter a number, and only recipies with a calorie count per serving BELOW the number you gave will appear.
 - **Editing** a recipe means you can go back and tweak the directions, or the amount of an ingredient, or anything with ease. Just make sure you save before you quit!
 - **Viewing** a state of the art view page, allows you to check off ingredients as you prepare them as well as check off instructions as you complete them.
-- **Deleting** a recipe from the view screen will remove it from the list of recipes. After deleting, if you click the confirm button that appears, it will permanently
+- **Deleting** a recipe from the Search screen will remove it from the list of recipes. After deleting, if you click the confirm button that appears, it will permanently
 save what you just did, so be careful!
 
 # Starting the program
