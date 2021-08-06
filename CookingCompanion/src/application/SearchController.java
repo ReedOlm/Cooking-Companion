@@ -53,17 +53,20 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 	public TableColumn<Recipe, String> colName, colCals;
 
 	/**
-	 * Overrides handle event to get action events from JavaFX exits the view screen
-	 * when clicked.
+	 * Overrides handle event to get button action events from JavaFX, branching
+	 * if-statements detect each specific button buttons include: Exit, View, Edit,
+	 * and Delete, and Confirm
 	 * 
 	 * @param event ActionEvent to get ActionEvent (ActionEvent)
 	 */
+	@FXML
 	@Override
 	public void handle(ActionEvent event)
 	{
 		// Happens when exit button is clicked
 		if (event.getSource() == exitButton)
 		{
+			// starts the process of swapping scenes to the Search scene
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) exitButton.getScene().getWindow();
@@ -88,7 +91,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				// Write your data to the pass csv
 				writePass(trimmedRecipeList.getSelectionModel().getSelectedItem().getName());
 
-				// goes to the View Screen
+				// starts the process of swapping scenes to the View scene
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) viewButton.getScene().getWindow();
@@ -117,7 +120,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				// Write data to pass csv
 				writePass(trimmedRecipeList.getSelectionModel().getSelectedItem().getName());
 
-				// Goes to edit screen
+				// starts the process of swapping scenes to the Edit scene
 				Stage appStage;
 				Parent root;
 				appStage = (Stage) editButton.getScene().getWindow();
@@ -140,6 +143,9 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		{
 			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
 			{
+				// Removes the deleted recipe from both the array list and the Table.
+				// Calls save after removing from the arrayList, which saves it and makes it
+				// permanent
 				String name = trimmedRecipeList.getSelectionModel().getSelectedItem().getName();
 				ObservableList<Recipe> list = trimmedRecipeList.getItems();
 				list.remove(trimmedRecipeList.getSelectionModel().getSelectedItem());
@@ -161,12 +167,14 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				}
 			}
 
+			// Disables the confirm button
 			confirmButton.setDisable(true);
 		}
 
 		// Happens when delete button is clicked
 		else if (event.getSource() == deleteButton)
 		{
+			// Activates the confirm button
 			if (trimmedRecipeList.getSelectionModel().getSelectedItem() != null)
 			{
 				confirmButton.setDisable(false);
@@ -174,24 +182,49 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		}
 	}
 
+	/**
+	 * MouseEvent action event detector, that disables the confirm button if you
+	 * select another recipe after pressing delete, but before confirming. This
+	 * prevents users from accidentally deleting things they don't want without a
+	 * confirmation
+	 * 
+	 * @param event MouseEvent to get MouseEvent (MouseEvent)
+	 */
 	@FXML
 	private void confirmCancel(MouseEvent event)
 	{
 		confirmButton.setDisable(true);
 	}
 
+	/**
+	 * Overrides initialize event to initialize previously declared FXML data and
+	 * data containers
+	 * 
+	 * @param arg0 URL default initialize param (URL)
+	 * @param arg1 ResourceBundle default initialize param (ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
 		try
 		{
+			// Reads from pass.csv and stores it
 			passData = readPass();
+			// Reads from recipes.csv and stores it in Recipes ArrayList
 			readRecipes();
+			// Fills filteredRecipes arrayList with only recipes that match the passData
+			// data from readPass
 			filterRecipes(passData[0], passData[1]);
 
+			// Sets what information can be displayed in the Table view columns with a
+			// lambda expression using wrappers in the Recipe.java file
 			colName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 			colCals.setCellValueFactory(cellData -> cellData.getValue().calsProperty());
+			// Sets selection model to only allow one recipe to be selected at a time
 			trimmedRecipeList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+			// Fills out table view with the recipes that matched the search target from the
+			// ArrayList
 			ObservableList<Recipe> list = trimmedRecipeList.getItems();
 			for (int i = 0; i < filteredRecipes.size(); i++)
 			{
@@ -201,16 +234,21 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	// Reads pass.csv, determines and returns search type and target
+	/**
+	 * Function that reads from pass.csv, and returns the target value we are
+	 * searching for and the type of the search in an array of Strings
+	 * 
+	 * @return String[] the search value, and the type of search
+	 */
 	private String[] readPass() throws IOException
 	{
 		String row;
 		BufferedReader csvReader = new BufferedReader(new FileReader("src/application/data/pass.csv"));
+		// 4 ifs to determine the search type, and store the target
 		while ((row = csvReader.readLine()) != null)
 		{
 			String[] data = row.split(",");
@@ -241,12 +279,22 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		return null;
 	}
 
+	/**
+	 * Function that reads from recipes.csv, and places the parsed information into
+	 * the recipes ArrayList for the current view.
+	 * 
+	 */
 	private void readRecipes() throws IOException
 	{
 		String row;
 		BufferedReader csvReader = new BufferedReader(new FileReader("src/application/data/recipes.csv"));
 		while ((row = csvReader.readLine()) != null)
 		{
+			// Reads csv and inputs data into Recipe objects following my file formatting.
+			// Field 1: Name, Field 2: Total Calories, Field 3: Servings in the Recipe
+			// Field 4: x Number of Tags, next x Fields are the tags.
+			// Field 4+x: y Number of Ingredients, next y fields are the tags.
+			// Field 4+x+y: z Number of Instructions, next z fields are the instructions.
 			String[] data = row.split(",");
 			int i = 0;
 			int j = 0;
@@ -270,6 +318,7 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				prep.add(data[4 + i]);
 				i++;
 			}
+			prep.remove(0); // Fixes an off-By-One error
 
 			int numIngredients = Integer.parseInt(data[4 + i]);
 			for (j = 0; j < numIngredients; j++)
@@ -284,18 +333,29 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 				ingredients.add(ingredient);
 			}
 
+			// Adds recipe to arraylist
 			Recipe recipe = new Recipe(name, servings, calories, ingredients, tags, prep);
 			recipes.add(recipe);
 		}
 		csvReader.close();
 	}
 
+	/**
+	 * Searches based on search type given, Recipe name, ingredient name, tag, or a
+	 * number of calories per serving that serves as a maximum number. Also sorts by
+	 * Recipe name for first 3 search types, and sorts by calories per serving for
+	 * the last search type.
+	 * 
+	 * @param target name, ingredient name, tag, or max calories (String)
+	 * @param type   search type (String)
+	 */
 	private void filterRecipes(String target, String type)
 	{
+		// Displays what the search was at top of view
 		searchTarget.setText(target);
 		searchType.setText(type + " Search");
 
-		// Name
+		// Name search
 		if (type == "Name")
 		{
 			for (int i = 0; i < recipes.size(); i++)
@@ -305,10 +365,11 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 					filteredRecipes.add(recipes.get(i));
 				}
 			}
+			// Sort list by name
 			filteredRecipes.sort(Comparator.comparing(Recipe::getName));
 		}
 
-		// Ingredient
+		// Ingredient search
 		else if (type == "Ingredient")
 		{
 			for (int i = 0; i < recipes.size(); i++)
@@ -321,10 +382,11 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 					}
 				}
 			}
+			// Sort list by name
 			filteredRecipes.sort(Comparator.comparing(Recipe::getName));
 		}
 
-		// Tag
+		// Tag search
 		else if (type == "Tag")
 		{
 			for (int i = 0; i < recipes.size(); i++)
@@ -337,10 +399,11 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 					}
 				}
 			}
+			// Sort list by Tag
 			filteredRecipes.sort(Comparator.comparing(Recipe::getName));
 		}
 
-		// Calories
+		// Calories search
 		else if (type == "Calories")
 		{
 			int maxCals = Integer.valueOf(target);
@@ -351,11 +414,17 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 					filteredRecipes.add(recipes.get(i));
 				}
 			}
+			// Sort list by calories per serving
 			filteredRecipes.sort(Comparator.comparing(Recipe::getCaloriesPerServing));
 		}
 	}
 
-	// This writes data to pass.csv
+	/**
+	 * Function that writes to pass.csv the name of the Recipe we are going to
+	 * edit/view
+	 * 
+	 * @param selectedItem name of the Recipe we are writing the the file (String)
+	 */
 	private void writePass(String selectedItem)
 	{
 		try
@@ -372,7 +441,11 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 		}
 	}
 
-	// This puts the recipe arraylist into the listview
+	/**
+	 * Saves the data from the ArrayList into the recipes.csv file, used for
+	 * deleting
+	 * 
+	 */
 	private void saveData() throws IOException
 	{
 		FileWriter writer;
@@ -432,5 +505,4 @@ public class SearchController implements Initializable, EventHandler<ActionEvent
 			e.printStackTrace();
 		}
 	}
-
 }

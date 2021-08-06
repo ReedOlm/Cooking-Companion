@@ -12,11 +12,11 @@ import javafx.beans.property.StringProperty;
  */
 public class Ingredient
 {
-	// TODO Data field
 	private String name;
 	private double amount;
 	private EUnitType unit;
 	private int calories;
+	//These allow the TableView lambda to display Ingredients on the table
 	private final StringProperty nameP = new SimpleStringProperty();
 	private final StringProperty amountP = new SimpleStringProperty();
 	private final StringProperty unitP = new SimpleStringProperty();
@@ -181,7 +181,7 @@ public class Ingredient
 		amountProperty().set(String.valueOf(amount));
 	}
 
-	// JavaFX Wrappers for amount for using table views!
+	// JavaFX Wrappers for unit for using table views!
 	public StringProperty unitProperty()
 	{
 		return unitP;
@@ -197,7 +197,7 @@ public class Ingredient
 		unitProperty().set(unit.toString());
 	}
 
-	// JavaFX Wrappers for amount for using table views!
+	// JavaFX Wrappers for calories for using table views!
 	public StringProperty caloriesProperty()
 	{
 		return caloriesP;

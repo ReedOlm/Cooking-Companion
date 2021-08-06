@@ -36,8 +36,8 @@ import javafx.stage.Stage;
  */
 public class CreateController implements Initializable, EventHandler<ActionEvent>
 {
+	// declaring array lists to hold All recipes, and the current ingredient
 	ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-	ArrayList<Ingredient> curIngList = new ArrayList<Ingredient>();
 
 	@FXML
 	public Button exitWithoutSaving, save, addIngredient, removeIngredient, addTag, removeTag, addInstruction, removeInstruction;
@@ -60,40 +60,49 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 	@FXML
 	public TextField enterCalories, enterAmount, enterName, enterTag, recipeName, totalServings, enterInstruction;
 
+	/**
+	 * Overrides handle event to get button action events from JavaFX, branching
+	 * if-statements detect each specific button buttons include: Exit, Save,
+	 * add/remove ingredient, add/remove tag, add/remove instruction
+	 * 
+	 * @param event ActionEvent to get ActionEvent (ActionEvent)
+	 */
 	@FXML
+	@Override
 	public void handle(ActionEvent event)
 	{
-		// Exit button
+		// Exit button detected
 		if (event.getSource() == exitWithoutSaving)
 		{
+			// starts the process of swapping scenes to the Home scene
 			Stage appStage;
 			Parent root;
 			appStage = (Stage) exitWithoutSaving.getScene().getWindow();
 			try
 			{
-				root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+				root = FXMLLoader.load(getClass().getResource("Home_Browse.fxml"));
 				Scene scene = new Scene(root);
 				appStage.setScene(scene);
 				appStage.setTitle("Cooking Companion - Home");
 				appStage.show();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		// Save button
+		// Save button detected
 		else if (event.getSource() == save)
 		{
+			// Produces an error if a comma is used, or if the recipe name is blank
 			if (recipeName.getText().contains(","))
 			{
 				ingError.setText("Please don't use commas.");
-			} 
-			else if(recipeName.getText().equals(""))
+			} else if (recipeName.getText().equals(""))
 			{
 				ingError.setText("Please enter a recipe name.");
 			}
+			// Tries to save data unless a non-number is entered in the servings
 			else
 			{
 				try
@@ -101,19 +110,19 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 					// Catches non int values in field
 					@SuppressWarnings("unused")
 					int servingTest = Integer.valueOf(totalServings.getText());
-					// Save stuff
+					// Calls save data function to save stuff
 					saveData(recipeName.getText());
 				} catch (NumberFormatException e)
 				{
 					ingError.setText("Error: Please only use numbers in the serving size");
 				}
-
 			}
 		}
 
-		// AddInstruction
+		// AddInstruction button detected
 		else if (event.getSource() == addInstruction)
 		{
+			// Catches empty inputs and commas, then stores the input
 			if (enterInstruction.getText() != "")
 			{
 				if (enterInstruction.getText().contains(","))
@@ -128,7 +137,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			}
 		}
 
-		// RemoveInstruction
+		// RemoveInstruction button detected
 		else if (event.getSource() == removeInstruction)
 		{
 			ObservableList<String> list = instructions.getItems();
@@ -139,9 +148,10 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			enterInstruction.clear();
 		}
 
-		// Add Tag
+		// Add Tag button detected
 		else if (event.getSource() == addTag)
 		{
+			// Catches empty inputs and commas, then stores the input
 			if (enterTag.getText() != "")
 			{
 				if (enterTag.getText().contains(","))
@@ -156,7 +166,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			}
 		}
 
-		// Remove Tag
+		// Remove Tag button detected
 		else if (event.getSource() == removeTag)
 		{
 			ObservableList<String> list = tagList.getItems();
@@ -167,10 +177,12 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			enterTag.clear();
 		}
 
-		// Add Ingredient
+		// Add Ingredient button detected
 		else if (event.getSource() == addIngredient)
 		{
 			ObservableList<Ingredient> list = ingredientList.getItems();
+			// Catches empty inputs, text in number fields, and commas, then stores the
+			// input
 			try
 			{
 				if (enterName.getText() != "" && enterAmount.getText() != "" && unitSelection.getValue() != null && enterCalories.getText() != "")
@@ -205,7 +217,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			}
 		}
 
-		// Remove Ingredient
+		// Remove Ingredient button detected
 		else if (event.getSource() == removeIngredient)
 		{
 			ObservableList<Ingredient> list = ingredientList.getItems();
@@ -226,20 +238,32 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 
 	}
 
+	/**
+	 * MouseEvent action event detector, that allows program to detect which
+	 * list/table/column was clicked, then gather the item that was clicked, and
+	 * will place the item into it's respective input box, this allows the user to
+	 * select an item to delete easily
+	 * 
+	 * @param event MouseEvent to get MouseEvent (MouseEvent)
+	 */
 	@FXML
 	private void putSelectedListItemInBox(MouseEvent event)
 	{
+		// Resets error message
 		ingError.setText("");
+
 		// Instruction selection
 		if (event.getSource() == instructions)
 		{
 			enterInstruction.setText(instructions.getSelectionModel().getSelectedItem());
 		}
+
 		// Tag selection
 		else if (event.getSource() == tagList)
 		{
 			enterTag.setText(tagList.getSelectionModel().getSelectedItem());
 		}
+
 		// Ingredient selection
 		else if (event.getSource() == ingredientList)
 		{
@@ -253,23 +277,37 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 		}
 	}
 
+	/**
+	 * Overrides initialize event to initialize previously declared FXML data and
+	 * data containers
+	 * 
+	 * @param arg0 URL default initialize param (URL)
+	 * @param arg1 ResourceBundle default initialize param (ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
+		// Set error text to empty
 		ingError.setText("");
+		// Sets ChoiceBox options to be that of my Enum UnitType.java file
 		unitSelection.getItems().setAll(EUnitType.values());
 
+		// Sets selection modes for lists/table Views to single selection
 		instructions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		tagList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		ingredientList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
 		// Sets the table to properly place Ingredient info into the correct columns
+		// using
+		// a lambda expression and wrappers from the Ingredient java file
 		colName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		colAmount.setCellValueFactory(cellData -> cellData.getValue().amountProperty());
 		colUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
 		colCalories.setCellValueFactory(cellData -> cellData.getValue().caloriesProperty());
 
-		caloriesTotal.setText("0");// TODO add updater to add/remove ingredients
+		// Default number of calories
+		caloriesTotal.setText("0");
+		// Try to call readData();
 		try
 		{
 			readData();
@@ -277,16 +315,25 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 		{
 			e.printStackTrace();
 		}
-
 	}
 
-	// This reads the saved recipe information into a recipe arrayList
+	/**
+	 * Function that reads from recipes.csv, and places the parsed information into
+	 * the recipes ArrayList for the current view.
+	 * 
+	 */
 	private void readData() throws IOException
 	{
 		String row;
 		BufferedReader csvReader = new BufferedReader(new FileReader("src/application/data/recipes.csv"));
+		// Parse file
 		while ((row = csvReader.readLine()) != null)
 		{
+			// Reads csv and inputs data into Recipe objects following my file formatting.
+			// Field 1: Name, Field 2: Total Calories, Field 3: Servings in the Recipe
+			// Field 4: x Number of Tags, next x Fields are the tags.
+			// Field 4+x: y Number of Ingredients, next y fields are the tags.
+			// Field 4+x+y: z Number of Instructions, next z fields are the instructions.
 			String[] data = row.split(",");
 			int i = 0;
 			int j = 0;
@@ -310,7 +357,7 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				prep.add(data[4 + i]);
 				i++;
 			}
-			prep.remove(0);
+			prep.remove(0); // Fixes an off-By-One error
 
 			int numIngredients = Integer.parseInt(data[4 + i]);
 			for (j = 0; j < numIngredients; j++)
@@ -325,21 +372,30 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 				ingredients.add(ingredient);
 			}
 
+			// Adds recipe to the arraylist
 			Recipe recipe = new Recipe(name, servings, calories, ingredients, tags, prep);
 			recipes.add(recipe);
 		}
 		csvReader.close();
 	}
 
-	// This puts the recipe arraylist into the listview
+	/**
+	 * Takes the information from the view to save it to file. If the name of the
+	 * current recipe is already in storage, it will be overwritten and saved anew.
+	 * 
+	 * @param overwrite name of the current recipe, if it already exists, it will
+	 *                  overwrite it in the file (String)
+	 */
 	private void saveData(String overwrite)
 	{
+		// Name comparator
 		int oIndex = -1;
 		for (int i = 0; i < recipes.size(); i++)
 		{
 			if (recipes.get(i).getName().equalsIgnoreCase(overwrite))
 				oIndex = i;
 		}
+		// New-recipe writer
 		if (oIndex == -1)
 		{
 			try
@@ -364,7 +420,6 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 					writer.append(",");
 				}
 				// write numSteps and Steps
-				// TODO Convert text area to individual Strings
 				ObservableList<String> listOfInstructions = instructions.getItems();
 				writer.append(String.valueOf(listOfInstructions.size()));
 				writer.append(",");
@@ -398,10 +453,118 @@ public class CreateController implements Initializable, EventHandler<ActionEvent
 			{
 				e1.printStackTrace();
 			}
-		} else
-		{
-
 		}
+		// Writer that overwrites the matching recipe name's recipe
+		else
+		{
+			FileWriter writer;
+			try
+			{
+				writer = new FileWriter("src/application/data/recipes.csv", false);
+				for (int x = 0; x < recipes.size(); x++)
+				{
+					// detects the matching recipe, and instead of writing from the array, writes
+					// from the text fields
+					if (oIndex == x)
+					{
+						// write Recipe name
+						writer.append(recipeName.getText());
+						writer.append(",");
+						// write Recipe Calories
+						writer.append(caloriesTotal.getText());
+						writer.append(",");
+						// write Recipe Servings
+						writer.append(totalServings.getText());
+						writer.append(",");
+						// write numTags and Tags
+						ObservableList<String> listOfTags = tagList.getItems();
+						writer.append(String.valueOf(listOfTags.size()));
+						writer.append(",");
+						for (int i = 0; i < listOfTags.size(); i++)
+						{
+							writer.append(listOfTags.get(i));
+							writer.append(",");
+						}
+						// write numSteps and Steps
+						ObservableList<String> listOfInstructions = instructions.getItems();
+						writer.append(String.valueOf(listOfInstructions.size()));
+						writer.append(",");
+						for (int i = 0; i < listOfInstructions.size(); i++)
+						{
+							writer.append(listOfInstructions.get(i));
+							writer.append(",");
+						}
 
+						// write numIngredients and Ingredients
+						ObservableList<Ingredient> listOfIngredients = ingredientList.getItems();
+						writer.append(String.valueOf(listOfIngredients.size()));
+						writer.append(",");
+						for (int i = 0; i < listOfIngredients.size(); i++)
+						{
+							writer.append(listOfIngredients.get(i).getName());
+							writer.append(",");
+							writer.append(String.valueOf(listOfIngredients.get(i).getAmount()));
+							writer.append(",");
+							writer.append(listOfIngredients.get(i).getUnit().getText());
+							writer.append(",");
+							writer.append(String.valueOf(listOfIngredients.get(i).getCalories()));
+							writer.append(",");
+						}
+						writer.append("\n");
+					}
+					// writes from array for non-matching names
+					else
+					{
+						Recipe cur = recipes.get(x);
+						// write Recipe name
+						writer.append(cur.getName());
+						writer.append(",");
+						// write Recipe Calories
+						writer.append(String.valueOf(cur.getCalories()));
+						writer.append(",");
+						// write Recipe Servings
+						writer.append(String.valueOf(cur.getServings()));
+						writer.append(",");
+						// write numTags and Tags
+						writer.append(String.valueOf(cur.getTags().size()));
+						writer.append(",");
+						for (int i = 0; i < cur.getTags().size(); i++)
+						{
+							writer.append(cur.getTags().get(i));
+							writer.append(",");
+						}
+						// write numSteps and Steps
+						writer.append(String.valueOf(cur.getPrep().size()));
+						writer.append(",");
+						for (int i = 0; i < cur.getPrep().size(); i++)
+						{
+							writer.append(cur.getPrep().get(i));
+							writer.append(",");
+						}
+
+						// write numIngredients and Ingredients
+						writer.append(String.valueOf(cur.getIngredients().size()));
+						writer.append(",");
+						for (int i = 0; i < cur.getIngredients().size(); i++)
+						{
+							writer.append(cur.getIngredients().get(i).getName());
+							writer.append(",");
+							writer.append(String.valueOf(cur.getIngredients().get(i).getAmount()));
+							writer.append(",");
+							writer.append(cur.getIngredients().get(i).getUnit().getText());
+							writer.append(",");
+							writer.append(String.valueOf(cur.getIngredients().get(i).getCalories()));
+							writer.append(",");
+						}
+						writer.append("\n");
+					}
+				}
+				writer.flush();
+				writer.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }
