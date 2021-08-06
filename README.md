@@ -42,4 +42,4 @@ save what you just did, so be careful!
   - [x] Allow user to go into edit/view mode on a recipe
   - [x] Allow user to delete a recipe permanently with a simple confirmation.
 - [ ] Beautify UI
-- [ ] Comment Code Better
+- [x] Comment Code Better
